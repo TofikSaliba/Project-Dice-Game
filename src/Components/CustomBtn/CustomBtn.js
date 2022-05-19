@@ -4,7 +4,9 @@ class CustomBtn extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.props.rollDiceFunc()}>Roll The Dice</button>
+        <button onClick={() => this.props.rollDiceFunc()}>
+          {this.props.text}
+        </button>
       </div>
     );
   }

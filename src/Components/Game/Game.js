@@ -1,11 +1,12 @@
 import React from "react";
 import Dice from "../Dice/Dice";
 import CustomBtn from "../CustomBtn/CustomBtn";
+import Player from "../Player/Player";
 
 class Game extends React.Component {
   state = {
     currentDiceRoll: [],
-    whosTurn: true, //* in component: App
+    playerTurn: false, //* in component: App
     playerTurnCurrentScore: 0, //* in component: need to decide
     totalScore1: 0,
     totalScore2: 0,
@@ -27,46 +28,69 @@ class Game extends React.Component {
       currentDiceRoll[idx] = diceFunc();
     });
     this.setState({ currentDiceRoll: currentDiceRoll });
+    setTimeout(() => this.updateCurrentSum(), 0);
   };
 
-  // getRollFunc = (func) => {
-  //   //* this.setState =>>>> CurrentDiceRoll
-  //   this.updateCurrentSum(this.state.currentDiceRoll);
-  // };
-
-  updateCurrentSum = (currentDiceRoll) => {
-    //! check if double sixes, call resetPlayerTurnCurrentScore
-    //* this.setState for total playerTurnCurrentScore
+  updateCurrentSum = () => {
+    const dice1 = this.state.currentDiceRoll[0],
+      dice2 = this.state.currentDiceRoll[1];
+    if (dice1 === 6 && dice2 === 6) {
+      this.setState((prev) => {
+        return { playerTurnCurrentScore: 0, playerTurn: !prev.playerTurn };
+      });
+    } else {
+      this.setState((prev) => {
+        let sum = prev.playerTurnCurrentScore + dice1 + dice2;
+        return {
+          playerTurnCurrentScore: sum,
+        };
+      });
+    }
   };
 
-  resetPlayerTurnCurrentScore = () => {};
+  holdTheScoreAndChangeTurn = () => {
+    if (this.state.playerTurnCurrentScore === 0) return;
+    const whoToAddTo = this.state.playerTurn ? "totalScore2" : "totalScore1";
+
+    this.setState((prev) => {
+      let sumToAdd = prev[whoToAddTo] + prev.playerTurnCurrentScore;
+      return {
+        [whoToAddTo]: sumToAdd,
+        playerTurn: !prev.playerTurn,
+        playerTurnCurrentScore: 0,
+      };
+    });
+  };
 
   updateTotalScoreFromCurrent = () => {
     //* this.setState totalScore of the current player += playerTurnCurrentScore
   };
 
+  componentDidUpdate = () => {
+    // console.log("yess");
+  };
+
   render() {
-    console.log(this.state.currentDiceRoll);
+    // console.log(this.state.playerTurn, this.state.currentDiceRoll);
     return (
       <div>
         {/* <NewGameBtn /> */}
-        {/* <Player
-          name="player1"
-          currentScore={playerTurnCurrentScore}
-          totalScore={state}
-          turn={!this.state.whosTurn}
-        /> */}
-        {/* <Player
-          name="player2"
-          currentScore={playerTurnCurrentScore}
-          totalScore={state}
-          turn={this.state.whosTurn}
-        /> */}
+        <Player
+          playerName="player1"
+          currentScore={this.state.playerTurnCurrentScore}
+          totalScore={this.state.totalScore1}
+          turn={!this.state.playerTurn}
+        />
+        <Player
+          playerName="player2"
+          currentScore={this.state.playerTurnCurrentScore}
+          totalScore={this.state.totalScore2}
+          turn={this.state.playerTurn}
+        />
         <Dice getRollFunc={this.getRollFunc} />
         <Dice getRollFunc={this.getRollFunc} />
-        <CustomBtn rollDiceFunc={this.rollAllDice} />
-        {/* <RollBtn callback={this.randomize} /> */}
-        {/* <HoldBtn callball={this.updateTotalScoreFromCurrent} /> */}
+        <CustomBtn text="Roll The Dice" rollDiceFunc={this.rollAllDice} />
+        <CustomBtn text="Hold" rollDiceFunc={this.holdTheScoreAndChangeTurn} />
       </div>
     );
   }
