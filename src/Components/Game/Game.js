@@ -12,6 +12,7 @@ class Game extends React.Component {
     totalScore2: 0,
     scoreGoal: 100,
     rollFuncs: [],
+    isRollBtnDisabled: false,
   };
 
   getRollFunc = (func) => {
@@ -23,12 +24,17 @@ class Game extends React.Component {
   };
 
   rollAllDice = () => {
-    const currentDiceRoll = [];
-    this.state.rollFuncs.forEach((diceFunc, idx) => {
-      currentDiceRoll[idx] = diceFunc();
-    });
-    this.setState({ currentDiceRoll: currentDiceRoll });
-    setTimeout(() => this.updateCurrentSum(), 0);
+    this.setState({ isRollBtnDisabled: true });
+
+    setTimeout(() => {
+      const currentDiceRoll = [];
+      this.state.rollFuncs.forEach((diceFunc, idx) => {
+        currentDiceRoll[idx] = diceFunc();
+      });
+      this.setState({ currentDiceRoll: currentDiceRoll });
+      this.setState({ isRollBtnDisabled: false });
+    }, 1000);
+    setTimeout(() => this.updateCurrentSum(), 1100);
   };
 
   updateCurrentSum = () => {
@@ -71,7 +77,7 @@ class Game extends React.Component {
   };
 
   render() {
-    // console.log(this.state.playerTurn, this.state.currentDiceRoll);
+    console.log(this.state.isRollBtnDisabled);
     return (
       <div>
         {/* <NewGameBtn /> */}
@@ -87,10 +93,24 @@ class Game extends React.Component {
           totalScore={this.state.totalScore2}
           turn={this.state.playerTurn}
         />
-        <Dice getRollFunc={this.getRollFunc} />
-        <Dice getRollFunc={this.getRollFunc} />
-        <CustomBtn text="Roll The Dice" rollDiceFunc={this.rollAllDice} />
-        <CustomBtn text="Hold" rollDiceFunc={this.holdTheScoreAndChangeTurn} />
+        <Dice
+          getRollFunc={this.getRollFunc}
+          rolling={this.state.isRollBtnDisabled}
+        />
+        <Dice
+          getRollFunc={this.getRollFunc}
+          rolling={this.state.isRollBtnDisabled}
+        />
+        <CustomBtn
+          text="Roll The Dice"
+          rollDiceFunc={this.rollAllDice}
+          disabled={this.state.isRollBtnDisabled}
+        />
+        <CustomBtn
+          text="Hold"
+          rollDiceFunc={this.holdTheScoreAndChangeTurn}
+          disabled={false}
+        />
       </div>
     );
   }
