@@ -6,13 +6,13 @@ import Player from "../Player/Player";
 class Game extends React.Component {
   state = {
     currentDiceRoll: [],
-    playerTurn: false, //* in component: App
-    playerTurnCurrentScore: 0, //* in component: need to decide
+    playerTurn: false,
+    playerTurnCurrentScore: 0,
     totalScore1: 0,
     totalScore2: 0,
     scoreGoal: 100,
-    rollFuncs: [],
     isRollBtnDisabled: false,
+    rollFuncs: [],
   };
 
   getRollFunc = (func) => {
@@ -25,16 +25,16 @@ class Game extends React.Component {
 
   rollAllDice = () => {
     this.setState({ isRollBtnDisabled: true });
+    const currentDiceRoll = [];
+    this.state.rollFuncs.forEach((diceFunc, idx) => {
+      currentDiceRoll[idx] = diceFunc();
+    });
+    this.setState({ currentDiceRoll: currentDiceRoll });
 
     setTimeout(() => {
-      const currentDiceRoll = [];
-      this.state.rollFuncs.forEach((diceFunc, idx) => {
-        currentDiceRoll[idx] = diceFunc();
-      });
-      this.setState({ currentDiceRoll: currentDiceRoll });
       this.setState({ isRollBtnDisabled: false });
+      this.updateCurrentSum();
     }, 1000);
-    setTimeout(() => this.updateCurrentSum(), 1100);
   };
 
   updateCurrentSum = () => {

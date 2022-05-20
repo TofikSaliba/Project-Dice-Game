@@ -8,13 +8,20 @@ import dice5 from "../../assets/images/dice-5.png";
 import dice6 from "../../assets/images/dice-6.png";
 
 class Dice extends React.Component {
-  state = { roll: null };
+  state = { roll: 6 };
   images = ["", dice1, dice2, dice3, dice4, dice5, dice6];
 
   rollNum = () => {
-    let random = (Math.random() * 6 + 1) | 0;
-    this.setState({ roll: random });
-    return random;
+    let random1 = (Math.random() * 6 + 1) | 0;
+    let intID = setInterval(() => {
+      let random = (Math.random() * 6 + 1) | 0;
+      this.setState({ roll: random });
+    }, 100);
+    setTimeout(() => {
+      this.setState({ roll: random1 });
+      clearInterval(intID);
+    }, 920);
+    return random1;
   };
 
   componentDidMount = () => {
