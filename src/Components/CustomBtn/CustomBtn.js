@@ -7,7 +7,7 @@ class CustomBtn extends React.Component {
       <div>
         <button
           className={classDisabled}
-          onClick={() => this.props.rollDiceFunc()}
+          onClick={() => this.props.callBackFunc()}
           disabled={this.props.disabled}
         >
           {this.props.text}

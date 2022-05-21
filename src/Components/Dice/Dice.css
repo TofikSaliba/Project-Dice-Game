@@ -29,3 +29,56 @@ button {
     transform: rotateY(90deg);
   }
 }
+
+.gameOverPop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgb(22, 22, 22, 0.22);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  /* transition: all 0.5s ease; */
+  animation: pop 1.5s forwards;
+  border-radius: 50%;
+}
+
+@keyframes pop {
+  0% {
+    transform: rotateX(540deg) scale(0);
+  }
+  10% {
+    transform: rotateX(-540deg) scale(0.2);
+  }
+  20% {
+    transform: rotateX(540deg) scale(0.4);
+  }
+  30% {
+    transform: rotateX(-540deg) scale(0.6);
+  }
+  40% {
+    transform: rotateX(540deg) scale(0.8);
+  }
+  50% {
+    transform: rotateX(-540deg) scale(1);
+  }
+  60% {
+    transform: rotateX(540deg) scale(1.2);
+  }
+  70% {
+    transform: rotateX(-540deg) scale(1.4);
+  }
+  80% {
+    transform: rotateX(540deg) scale(1.6);
+  }
+  90% {
+    transform: rotateX(-540deg) scale(1.8);
+  }
+  100% {
+    transform: scale(2);
+  }
+}

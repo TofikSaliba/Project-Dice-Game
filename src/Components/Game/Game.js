@@ -2,6 +2,7 @@ import React from "react";
 import Dice from "../Dice/Dice";
 import CustomBtn from "../CustomBtn/CustomBtn";
 import Player from "../Player/Player";
+import ReadInput from "../ReadInput/ReadInput";
 
 class Game extends React.Component {
   state = {
@@ -10,8 +11,12 @@ class Game extends React.Component {
     playerTurnCurrentScore: 0,
     totalScore1: 0,
     totalScore2: 0,
-    scoreGoal: 100,
-    isRollBtnDisabled: false,
+    p1Wins: 0,
+    p2Wins: 0,
+    isRollBtnDisabled: true,
+    isGameOver: false,
+    resetGame: true,
+    winnerMsg: "",
     rollFuncs: [],
   };
 
@@ -66,32 +71,86 @@ class Game extends React.Component {
         playerTurnCurrentScore: 0,
       };
     });
+    this.checkGameOver(whoToAddTo);
   };
 
-  updateTotalScoreFromCurrent = () => {
-    //* this.setState totalScore of the current player += playerTurnCurrentScore
+  checkGameOver = (playerScoreKey) => {
+    setTimeout(() => {
+      let playerNum;
+      if (this.state[playerScoreKey] === this.state.scoreGoal) {
+        playerNum = playerScoreKey.slice(-1);
+        this.setState({
+          winnerMsg: `player ${playerNum} has won! with reaching exactly ${this.state.scoreGoal} points.`,
+        });
+      } else if (this.state[playerScoreKey] > this.state.scoreGoal) {
+        playerNum = playerScoreKey === "totalScore1" ? "2" : "1";
+        this.setState({
+          winnerMsg: `player ${playerNum} has won! by the other player elimination getting over a ${this.state.scoreGoal}`,
+        });
+      }
+      if (playerNum) {
+        this.setState((prev) => {
+          console.log(prev[`p${playerNum}Wins`]);
+          return {
+            isGameOver: true,
+            [`p${playerNum}Wins`]: prev[`p${playerNum}Wins`] + 1,
+          };
+        });
+      }
+    }, 100);
   };
 
-  componentDidUpdate = () => {
-    // console.log("yess");
+  playAgain = () => {
+    this.setState({
+      currentDiceRoll: [],
+      playerTurn: false,
+      playerTurnCurrentScore: 0,
+      totalScore1: 0,
+      totalScore2: 0,
+      isRollBtnDisabled: false,
+      isGameOver: false,
+      winnerMsg: "",
+    });
+  };
+
+  getScoreGoalAndStart = (scoreGoal) => {
+    this.playAgain();
+    this.setState({
+      scoreGoal: scoreGoal,
+      p1Wins: 0,
+      p2Wins: 0,
+      resetGame: false,
+    });
+  };
+
+  newGame = () => {
+    this.setState({
+      resetGame: true,
+      isRollBtnDisabled: true,
+    });
   };
 
   render() {
-    console.log(this.state.isRollBtnDisabled);
     return (
       <div>
-        {/* <NewGameBtn /> */}
+        <CustomBtn
+          text="New Game"
+          callBackFunc={this.newGame}
+          disabled={false}
+        />
         <Player
           playerName="player1"
           currentScore={this.state.playerTurnCurrentScore}
           totalScore={this.state.totalScore1}
           turn={!this.state.playerTurn}
+          wins={this.state.p1Wins}
         />
         <Player
           playerName="player2"
           currentScore={this.state.playerTurnCurrentScore}
           totalScore={this.state.totalScore2}
           turn={this.state.playerTurn}
+          wins={this.state.p2Wins}
         />
         <Dice
           getRollFunc={this.getRollFunc}
@@ -103,14 +162,27 @@ class Game extends React.Component {
         />
         <CustomBtn
           text="Roll The Dice"
-          rollDiceFunc={this.rollAllDice}
+          callBackFunc={this.rollAllDice}
           disabled={this.state.isRollBtnDisabled}
         />
         <CustomBtn
           text="Hold"
-          rollDiceFunc={this.holdTheScoreAndChangeTurn}
+          callBackFunc={this.holdTheScoreAndChangeTurn}
           disabled={false}
         />
+        {this.state.resetGame && (
+          <ReadInput getScoreGoal={this.getScoreGoalAndStart} />
+        )}
+        {this.state.isGameOver && (
+          <div className="gameOverPop">
+            <p>{this.state.winnerMsg}</p>
+            <CustomBtn
+              text="Play Again"
+              callBackFunc={this.playAgain}
+              disabled={false}
+            />
+          </div>
+        )}
       </div>
     );
   }
