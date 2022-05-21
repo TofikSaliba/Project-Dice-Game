@@ -48,31 +48,6 @@ body {
   max-width: 1200px;
   margin: auto;
 
-  .playerContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8rem;
-    background: #039AFB;
-    padding: 4rem;
-    text-align: center;
-    opacity: 0.9;
-    color: #fff;
-    border-radius: 10px;
-
-    @include responsive(mobile) {
-      flex-direction: row;
-      padding: 1rem;
-      width: max-content;
-      gap: 4rem;
-    }
-
-    @include responsive(mobile2) {
-      gap: 1.5rem;
-    }
-
-  }
-
   .gameBoard{
     display: flex;
     flex-direction: column;
@@ -87,6 +62,12 @@ body {
 
   .inputContainer{
     flex-basis: 4rem;
+
+    .scoreGoal{
+      color: #3FDADC;
+      text-shadow: 1px 1px 0 #000;
+      font-size: clamp(1.6rem,2vw,3rem);
+    }
   }
 
   .diceContainer{
@@ -101,5 +82,3 @@ body {
     gap: 2rem;
   }
 }
-
-

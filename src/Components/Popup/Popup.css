@@ -4,7 +4,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgb(22, 22, 22, 0.44);
+  background: rgb(22, 22, 22, 0.77);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,6 +13,7 @@
   animation: pop 1.5s forwards;
   border-radius: 50%;
   color: #fff;
+  text-shadow: 1px 1px 0 #000;
   font-size: clamp(1.2rem, 3vw, 3rem);
   text-align: center;
   padding: 0 1rem;

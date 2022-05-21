@@ -57,46 +57,6 @@ body {
   margin: auto;
 }
 
-.mainContainer .playerContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: 8rem;
-  background: #039AFB;
-  padding: 4rem;
-  text-align: center;
-  opacity: 0.9;
-  color: #fff;
-  border-radius: 10px;
-}
-
-@media (max-width: 600px) {
-  .mainContainer .playerContainer {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    padding: 1rem;
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
-    gap: 4rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .mainContainer .playerContainer {
-    gap: 1.5rem;
-  }
-}
-
 .mainContainer .gameBoard {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -121,6 +81,12 @@ body {
 .mainContainer .inputContainer {
   -ms-flex-preferred-size: 4rem;
       flex-basis: 4rem;
+}
+
+.mainContainer .inputContainer .scoreGoal {
+  color: #3FDADC;
+  text-shadow: 1px 1px 0 #000;
+  font-size: clamp(1.6rem, 2vw, 3rem);
 }
 
 .mainContainer .diceContainer {

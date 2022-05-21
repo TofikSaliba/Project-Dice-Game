@@ -7,25 +7,34 @@ class ReadInput extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     let inputEl = event.target.firstChild;
-    if (Number(inputEl.value)) {
-      let val = Number(inputEl.value);
-      if (val < 20 || val > 1000) {
-        this.setState({
-          errorMsg: `Score goal must be between 20 and 1000, Entered: ${inputEl.value}`,
-        });
-      } else {
-        this.props.getScoreGoal(val);
-      }
+    if (this.checkValidity(inputEl.value)) {
+      this.props.getScoreGoal(Number(inputEl.value));
     } else {
-      this.setState({ errorMsg: `${inputEl.value} is not a number!` });
     }
     inputEl.value = "";
   };
+
+  checkValidity = (value) => {
+    let valToNumber = Number(value);
+    if (valToNumber) {
+      if (valToNumber < 20 || valToNumber > 1000) {
+        this.setState({
+          errorMsg: `Score goal must be between 20 and 1000, Entered: ${value}`,
+        });
+        return false;
+      }
+    } else {
+      this.setState({ errorMsg: `${value} is not a number!` });
+      return false;
+    }
+    return true;
+  };
+
   render() {
     return (
       <>
         <form onSubmit={(e) => this.onSubmit(e)}>
-          <input type="text" />
+          <input type="text" className="inputText" />
           <button type="submit">Start</button>
         </form>
         <div className="errorMsg">{this.state.errorMsg}</div>

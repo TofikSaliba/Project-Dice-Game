@@ -36,8 +36,11 @@ class Game extends React.Component {
     this.state.rollFuncs.forEach((diceFunc, idx) => {
       currentDiceRoll[idx] = diceFunc();
     });
-    this.setState({ currentDiceRoll: currentDiceRoll });
+    this.updateCurrSumAndCurrDiceRoll(currentDiceRoll);
+  };
 
+  updateCurrSumAndCurrDiceRoll = (currentDiceRoll) => {
+    this.setState({ currentDiceRoll: currentDiceRoll });
     setTimeout(() => {
       this.setState({ isRollBtnDisabled: false });
       this.updateCurrentSum();
@@ -52,19 +55,34 @@ class Game extends React.Component {
         return { playerTurnCurrentScore: 0, playerTurn: !prev.playerTurn };
       });
     } else {
-      this.setState((prev) => {
-        let sum = prev.playerTurnCurrentScore + dice1 + dice2;
-        return {
-          playerTurnCurrentScore: sum,
-        };
-      });
+      this.addSumToState(dice1 + dice2);
     }
+  };
+
+  addSumToState = (diceSum) => {
+    this.setState((prev) => {
+      let sum = prev.playerTurnCurrentScore + diceSum;
+      return {
+        playerTurnCurrentScore: sum,
+      };
+    });
+    this.checkIfCurrentIsOverScoreGoal();
+  };
+
+  checkIfCurrentIsOverScoreGoal = () => {
+    let playerKey = this.state.playerTurn ? "2" : "1";
+    this.checkGameOver("playerTurnCurrentScore", playerKey);
   };
 
   holdTheScoreAndChangeTurn = () => {
     if (this.state.playerTurnCurrentScore === 0) return;
     const whoToAddTo = this.state.playerTurn ? "totalScore2" : "totalScore1";
 
+    this.addCurrentToPlayerTotal(whoToAddTo);
+    this.checkGameOver(whoToAddTo, whoToAddTo.slice(-1));
+  };
+
+  addCurrentToPlayerTotal = (whoToAddTo) => {
     this.setState((prev) => {
       let sumToAdd = prev[whoToAddTo] + prev.playerTurnCurrentScore;
       return {
@@ -73,32 +91,44 @@ class Game extends React.Component {
         playerTurnCurrentScore: 0,
       };
     });
-    this.checkGameOver(whoToAddTo);
   };
 
-  checkGameOver = (playerScoreKey) => {
+  checkGameOver = (stateScoreKey, pNum) => {
     setTimeout(() => {
       let playerNum;
-      if (this.state[playerScoreKey] === this.state.scoreGoal) {
-        playerNum = playerScoreKey.slice(-1);
-        this.setState({
-          winnerMsg: `player ${playerNum} has won! with reaching exactly ${this.state.scoreGoal} points.`,
-        });
-      } else if (this.state[playerScoreKey] > this.state.scoreGoal) {
-        playerNum = playerScoreKey === "totalScore1" ? "2" : "1";
-        this.setState({
-          winnerMsg: `player ${playerNum} has won! by the other player elimination getting over a ${this.state.scoreGoal}`,
-        });
+      if (this.state[stateScoreKey] === this.state.scoreGoal) {
+        playerNum = pNum;
+        this.setReachScoreWinMsg(playerNum);
+      } else if (this.state[stateScoreKey] > this.state.scoreGoal) {
+        playerNum = this.setPassedScoreWinMsg(pNum);
       }
       if (playerNum) {
-        this.setState((prev) => {
-          return {
-            isGameOver: true,
-            [`p${playerNum}Wins`]: prev[`p${playerNum}Wins`] + 1,
-          };
-        });
+        this.gameIsTrulyOverDeclareWinner(playerNum);
       }
     }, 100);
+  };
+
+  setReachScoreWinMsg = (playerNum) => {
+    this.setState({
+      winnerMsg: `player ${playerNum} has won! with reaching exactly ${this.state.scoreGoal} points.`,
+    });
+  };
+
+  setPassedScoreWinMsg = (pNum) => {
+    let playerNum = pNum === "1" ? "2" : "1";
+    this.setState({
+      winnerMsg: `player ${playerNum} has won! by the other player elimination getting over a ${this.state.scoreGoal}`,
+    });
+    return playerNum;
+  };
+
+  gameIsTrulyOverDeclareWinner = (playerNum) => {
+    this.setState((prev) => {
+      return {
+        isGameOver: true,
+        [`p${playerNum}Wins`]: prev[`p${playerNum}Wins`] + 1,
+      };
+    });
   };
 
   playAgain = () => {
@@ -151,7 +181,7 @@ class Game extends React.Component {
               <CustomBtn
                 text="New Game"
                 callBackFunc={this.newGame}
-                disabled={false}
+                disabled={this.state.isGameOver}
               />
             </div>
             <div className="diceContainer">
@@ -168,7 +198,7 @@ class Game extends React.Component {
               <CustomBtn
                 text="Roll The Dice"
                 callBackFunc={this.rollAllDice}
-                disabled={this.state.isRollBtnDisabled}
+                disabled={this.state.isRollBtnDisabled || this.state.isGameOver}
               />
               <CustomBtn
                 text="Hold"
@@ -179,6 +209,11 @@ class Game extends React.Component {
             <div className="inputContainer">
               {this.state.resetGame && (
                 <ReadInput getScoreGoal={this.getScoreGoalAndStart} />
+              )}
+              {!this.state.resetGame && (
+                <div className="scoreGoal">
+                  Score Goal: {this.state.scoreGoal}
+                </div>
               )}
             </div>
           </div>
