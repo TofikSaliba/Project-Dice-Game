@@ -3,14 +3,14 @@ import React from "react";
 class Player extends React.Component {
   render() {
     return (
-      <div>
+      <>
         <h1>{this.props.playerName}</h1>
-        <div className="wins">{this.props.wins}</div>
-        <div className="totalScore">{this.props.totalScore}</div>
+        <div className="wins">wins: {this.props.wins}</div>
+        <div className="totalScore">total score: {this.props.totalScore}</div>
         <div className="currentScore">
-          {this.props.turn ? this.props.currentScore : 0}
+          Current score: {this.props.turn ? this.props.currentScore : 0}
         </div>
-      </div>
+      </>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import "./ReadInput.css";
 
 class ReadInput extends React.Component {
   state = { errorMsg: "" };
@@ -6,12 +7,11 @@ class ReadInput extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     let inputEl = event.target.firstChild;
-    console.log(Number(inputEl.value));
     if (Number(inputEl.value)) {
       let val = Number(inputEl.value);
-      if (val < 20) {
+      if (val < 20 || val > 1000) {
         this.setState({
-          errorMsg: `Score goal must be at least 20! Entered: ${inputEl.value}`,
+          errorMsg: `Score goal must be between 20 and 1000, Entered: ${inputEl.value}`,
         });
       } else {
         this.props.getScoreGoal(val);
@@ -23,11 +23,13 @@ class ReadInput extends React.Component {
   };
   render() {
     return (
-      <form onSubmit={(e) => this.onSubmit(e)}>
-        <input type="text" />
-        <button type="submit">Start</button>
-        <div>{this.state.errorMsg}</div>
-      </form>
+      <>
+        <form onSubmit={(e) => this.onSubmit(e)}>
+          <input type="text" />
+          <button type="submit">Start</button>
+        </form>
+        <div className="errorMsg">{this.state.errorMsg}</div>
+      </>
     );
   }
 }

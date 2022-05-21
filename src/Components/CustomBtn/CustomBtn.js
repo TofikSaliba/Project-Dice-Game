@@ -1,10 +1,11 @@
 import React from "react";
+import "./CustomBtn.css";
 
 class CustomBtn extends React.Component {
   render() {
     const classDisabled = this.props.disabled ? "disabled" : "";
     return (
-      <div>
+      <>
         <button
           className={classDisabled}
           onClick={() => this.props.callBackFunc()}
@@ -12,7 +13,7 @@ class CustomBtn extends React.Component {
         >
           {this.props.text}
         </button>
-      </div>
+      </>
     );
   }
 }

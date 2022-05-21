@@ -1,0 +1,105 @@
+@import "../../utils/mobile.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  font-size: 62.5%;
+}
+
+body {
+  overflow: hidden;
+  user-select: none;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.bg-img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.8;
+  background: url("../../assets/images/background.jpg") no-repeat center center/cover;
+}
+
+.thanks{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #F8EA34;
+  font-size: clamp(1rem, 3vw,2rem);
+  text-align: center;
+}
+
+.mainContainer {
+  font-size: clamp(1rem, 3vw,3rem);
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+
+  .playerContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8rem;
+    background: #039AFB;
+    padding: 4rem;
+    text-align: center;
+    opacity: 0.9;
+    color: #fff;
+    border-radius: 10px;
+
+    @include responsive(mobile) {
+      flex-direction: row;
+      padding: 1rem;
+      width: max-content;
+      gap: 4rem;
+    }
+
+    @include responsive(mobile2) {
+      gap: 1.5rem;
+    }
+
+  }
+
+  .gameBoard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+  }
+
+  .rollAndHold{
+    display: flex;
+    gap: 2rem;
+  }
+
+  .inputContainer{
+    flex-basis: 4rem;
+  }
+
+  .diceContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  @include responsive(mobile) {
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+  }
+}
+
+

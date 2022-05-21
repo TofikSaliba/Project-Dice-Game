@@ -1,0 +1,15 @@
+button {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: clamp(1.6rem, 2vw, 3rem);
+  color: #111;
+  background: #f8ea34;
+  opacity: 0.8;
+}
+
+button:hover {
+  opacity: 1;
+}
+/*# sourceMappingURL=CustomBtn.css.map */

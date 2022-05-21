@@ -1,8 +1,10 @@
 import React from "react";
+import "./Game.css";
 import Dice from "../Dice/Dice";
 import CustomBtn from "../CustomBtn/CustomBtn";
 import Player from "../Player/Player";
 import ReadInput from "../ReadInput/ReadInput";
+import Popup from "../Popup/Popup";
 
 class Game extends React.Component {
   state = {
@@ -90,7 +92,6 @@ class Game extends React.Component {
       }
       if (playerNum) {
         this.setState((prev) => {
-          console.log(prev[`p${playerNum}Wins`]);
           return {
             isGameOver: true,
             [`p${playerNum}Wins`]: prev[`p${playerNum}Wins`] + 1,
@@ -132,58 +133,76 @@ class Game extends React.Component {
 
   render() {
     return (
-      <div>
-        <CustomBtn
-          text="New Game"
-          callBackFunc={this.newGame}
-          disabled={false}
-        />
-        <Player
-          playerName="player1"
-          currentScore={this.state.playerTurnCurrentScore}
-          totalScore={this.state.totalScore1}
-          turn={!this.state.playerTurn}
-          wins={this.state.p1Wins}
-        />
-        <Player
-          playerName="player2"
-          currentScore={this.state.playerTurnCurrentScore}
-          totalScore={this.state.totalScore2}
-          turn={this.state.playerTurn}
-          wins={this.state.p2Wins}
-        />
-        <Dice
-          getRollFunc={this.getRollFunc}
-          rolling={this.state.isRollBtnDisabled}
-        />
-        <Dice
-          getRollFunc={this.getRollFunc}
-          rolling={this.state.isRollBtnDisabled}
-        />
-        <CustomBtn
-          text="Roll The Dice"
-          callBackFunc={this.rollAllDice}
-          disabled={this.state.isRollBtnDisabled}
-        />
-        <CustomBtn
-          text="Hold"
-          callBackFunc={this.holdTheScoreAndChangeTurn}
-          disabled={false}
-        />
-        {this.state.resetGame && (
-          <ReadInput getScoreGoal={this.getScoreGoalAndStart} />
-        )}
-        {this.state.isGameOver && (
-          <div className="gameOverPop">
-            <p>{this.state.winnerMsg}</p>
-            <CustomBtn
-              text="Play Again"
-              callBackFunc={this.playAgain}
-              disabled={false}
+      <>
+        <div className="bg-img"></div>
+
+        <div className="mainContainer">
+          <div className="playerContainer">
+            <Player
+              playerName="player 1"
+              currentScore={this.state.playerTurnCurrentScore}
+              totalScore={this.state.totalScore1}
+              turn={!this.state.playerTurn}
+              wins={this.state.p1Wins}
             />
           </div>
-        )}
-      </div>
+          <div className="gameBoard">
+            <div className="newGameBtn">
+              <CustomBtn
+                text="New Game"
+                callBackFunc={this.newGame}
+                disabled={false}
+              />
+            </div>
+            <div className="diceContainer">
+              <Dice
+                getRollFunc={this.getRollFunc}
+                rolling={this.state.isRollBtnDisabled}
+              />
+              <Dice
+                getRollFunc={this.getRollFunc}
+                rolling={this.state.isRollBtnDisabled}
+              />
+            </div>
+            <div className="rollAndHold">
+              <CustomBtn
+                text="Roll The Dice"
+                callBackFunc={this.rollAllDice}
+                disabled={this.state.isRollBtnDisabled}
+              />
+              <CustomBtn
+                text="Hold"
+                callBackFunc={this.holdTheScoreAndChangeTurn}
+                disabled={false}
+              />
+            </div>
+            <div className="inputContainer">
+              {this.state.resetGame && (
+                <ReadInput getScoreGoal={this.getScoreGoalAndStart} />
+              )}
+            </div>
+          </div>
+          <div className="playerContainer">
+            <Player
+              playerName="player 2"
+              currentScore={this.state.playerTurnCurrentScore}
+              totalScore={this.state.totalScore2}
+              turn={this.state.playerTurn}
+              wins={this.state.p2Wins}
+            />
+          </div>
+          {this.state.isGameOver && (
+            <Popup
+              playAgain={this.playAgain}
+              winnerMsg={this.state.winnerMsg}
+            />
+          )}
+          <div className="thanks">
+            Special thanks to: Shir Toledano productions® for the amazing
+            styling!
+          </div>
+        </div>
+      </>
     );
   }
 }

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,MAAM,CAAC;EACL,MAAM,EAAE,OAAO;EACf,OAAO,EAAE,WAAW;EACpB,MAAM,EAAE,IAAI;EACZ,aAAa,EAAE,GAAG;EAClB,SAAS,EAAE,wBAAsB;EACjC,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,OAAO;EACnB,OAAO,EAAE,GAAG;CACb;;AAED,AAAA,MAAM,AAAA,MAAM,CAAC;EACX,OAAO,EAAE,CAAC;CACX",
+    "sources": [
+        "CustomBtn.scss"
+    ],
+    "names": [],
+    "file": "CustomBtn.css"
+}

@@ -1,0 +1,56 @@
+.gameOverPop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgb(22, 22, 22, 0.44);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  animation: pop 1.5s forwards;
+  border-radius: 50%;
+  color: #fff;
+  font-size: clamp(1.2rem, 3vw, 3rem);
+  text-align: center;
+  padding: 0 1rem;
+}
+
+@keyframes pop {
+  0% {
+    transform: rotateX(540deg) scale(0);
+  }
+  10% {
+    transform: rotateX(-540deg) scale(0.1);
+  }
+  20% {
+    transform: rotateX(540deg) scale(0.2);
+  }
+  30% {
+    transform: rotateX(-540deg) scale(0.3);
+  }
+  40% {
+    transform: rotateX(540deg) scale(0.4);
+  }
+  50% {
+    transform: rotateX(-540deg) scale(0.5);
+  }
+  60% {
+    transform: rotateX(540deg) scale(0.6);
+  }
+  70% {
+    transform: rotateX(-540deg) scale(0.7);
+  }
+  80% {
+    transform: rotateX(540deg) scale(0.8);
+  }
+  90% {
+    transform: rotateX(-540deg) scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    border-radius: 0%;
+  }
+}
