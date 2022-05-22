@@ -38,6 +38,8 @@ class Game extends React.Component {
 
   rollAllDice = () => {
     this.setState({ isRollBtnDisabled: true });
+    this.diceRoll.pause();
+    this.diceRoll.currentTime = 0;
     this.diceRoll.play();
     const currentDiceRoll = [];
     this.state.rollFuncs.forEach((diceFunc, idx) => {
