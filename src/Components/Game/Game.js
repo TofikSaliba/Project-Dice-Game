@@ -51,7 +51,7 @@ class Game extends React.Component {
     setTimeout(() => {
       this.setState({ isRollBtnDisabled: false });
       this.updateCurrentSum();
-    }, 1000);
+    }, 1100);
   };
 
   updateCurrentSum = () => {
