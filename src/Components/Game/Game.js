@@ -258,10 +258,9 @@ class Game extends React.Component {
               winnerMsg={this.state.winnerMsg}
             />
           )}
-          <div className="thanks">
-            Special thanks to: Shir Toledano productions® for the amazing
-            styling!
-          </div>
+        </div>
+        <div className="thanks">
+          Special thanks to: Shir Toledano productions® for the amazing styling!
         </div>
       </>
     );

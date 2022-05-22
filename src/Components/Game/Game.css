@@ -5,6 +5,12 @@
           box-sizing: border-box;
 }
 
+.thanks {
+  color: #f8ea34;
+  font-size: clamp(1rem, 3vw, 2rem);
+  text-align: center;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -32,18 +38,9 @@ body {
   background: url("../../assets/images/background.jpg") no-repeat center center/cover;
 }
 
-.thanks {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  color: #F8EA34;
-  font-size: clamp(1rem, 3vw, 2rem);
-  text-align: center;
-}
-
 .mainContainer {
   font-size: clamp(1rem, 3vw, 3rem);
-  height: 100vh;
+  height: 97vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -98,7 +95,7 @@ body {
 }
 
 .mainContainer .inputContainer .scoreGoal {
-  color: #3FDADC;
+  color: #3fdadc;
   text-shadow: 1px 1px 0 #000;
   font-size: clamp(1.6rem, 2vw, 3rem);
 }

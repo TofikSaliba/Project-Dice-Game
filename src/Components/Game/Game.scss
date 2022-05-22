@@ -6,7 +6,13 @@
   box-sizing: border-box;
 }
 
-html{
+.thanks {
+  color: #f8ea34;
+  font-size: clamp(1rem, 3vw, 2rem);
+  text-align: center;
+}
+
+html {
   font-size: 62.5%;
 }
 
@@ -19,7 +25,7 @@ body {
   cursor: not-allowed;
 }
 
-.bg-img{
+.bg-img {
   position: absolute;
   top: 0;
   left: 0;
@@ -27,28 +33,20 @@ body {
   width: 100%;
   z-index: -1;
   opacity: 0.8;
-  background: url("../../assets/images/background.jpg") no-repeat center center/cover;
-}
-
-.thanks{
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  color: #F8EA34;
-  font-size: clamp(1rem, 3vw,2rem);
-  text-align: center;
+  background: url("../../assets/images/background.jpg") no-repeat center
+    center/cover;
 }
 
 .mainContainer {
-  font-size: clamp(1rem, 3vw,3rem);
-  height: 100vh;
+  font-size: clamp(1rem, 3vw, 3rem);
+  height: 97vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
   margin: auto;
 
-  .gameBoard{
+  .gameBoard {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,25 +57,25 @@ body {
     }
   }
 
-  .rollAndHold{
+  .rollAndHold {
     display: flex;
     gap: 2rem;
   }
 
-  .inputContainer{
+  .inputContainer {
     flex-basis: 4rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
-    .scoreGoal{
-      color: #3FDADC;
+    .scoreGoal {
+      color: #3fdadc;
       text-shadow: 1px 1px 0 #000;
-      font-size: clamp(1.6rem,2vw,3rem);
+      font-size: clamp(1.6rem, 2vw, 3rem);
     }
   }
 
-  .diceContainer{
+  .diceContainer {
     display: flex;
     flex-direction: column;
     gap: 3rem;
