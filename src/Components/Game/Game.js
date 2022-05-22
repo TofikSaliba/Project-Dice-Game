@@ -6,6 +6,7 @@ import Player from "../Player/Player";
 import ReadInput from "../ReadInput/ReadInput";
 import NameInput from "../NameInput/NameInput";
 import Popup from "../Popup/Popup";
+import diceRoll from "../../assets/sound/diceRoll.wav";
 
 class Game extends React.Component {
   state = {
@@ -25,6 +26,8 @@ class Game extends React.Component {
     rollFuncs: [],
   };
 
+  diceRoll = new Audio(diceRoll);
+
   getRollFunc = (func) => {
     this.setState((prevState) => {
       const roll = [...prevState.rollFuncs];
@@ -35,6 +38,7 @@ class Game extends React.Component {
 
   rollAllDice = () => {
     this.setState({ isRollBtnDisabled: true });
+    this.diceRoll.play();
     const currentDiceRoll = [];
     this.state.rollFuncs.forEach((diceFunc, idx) => {
       currentDiceRoll[idx] = diceFunc();
