@@ -4,6 +4,7 @@ import Dice from "../Dice/Dice";
 import CustomBtn from "../CustomBtn/CustomBtn";
 import Player from "../Player/Player";
 import ReadInput from "../ReadInput/ReadInput";
+import NameInput from "../NameInput/NameInput";
 import Popup from "../Popup/Popup";
 
 class Game extends React.Component {
@@ -11,6 +12,8 @@ class Game extends React.Component {
     currentDiceRoll: [],
     playerTurn: false,
     playerTurnCurrentScore: 0,
+    player1Name: "Player 1",
+    player2Name: "Player 2",
     totalScore1: 0,
     totalScore2: 0,
     p1Wins: 0,
@@ -109,15 +112,19 @@ class Game extends React.Component {
   };
 
   setReachScoreWinMsg = (playerNum) => {
+    let playerName =
+      playerNum === "1" ? this.state.player1Name : this.state.player2Name;
     this.setState({
-      winnerMsg: `player ${playerNum} has won! with reaching exactly ${this.state.scoreGoal} points.`,
+      winnerMsg: `${playerName} has won! with reaching exactly ${this.state.scoreGoal} points.`,
     });
   };
 
   setPassedScoreWinMsg = (pNum) => {
     let playerNum = pNum === "1" ? "2" : "1";
+    let playerName =
+      playerNum === "1" ? this.state.player1Name : this.state.player2Name;
     this.setState({
-      winnerMsg: `player ${playerNum} has won! by the other player elimination getting over a ${this.state.scoreGoal}`,
+      winnerMsg: `${playerName} has won! by the other player elimination getting over a ${this.state.scoreGoal}`,
     });
     return playerNum;
   };
@@ -154,6 +161,15 @@ class Game extends React.Component {
     });
   };
 
+  getName = (player, value) => {
+    let playerName = player === "P1" ? "player1Name" : "player2Name";
+    if (value) {
+      this.setState({ [playerName]: value });
+    } else {
+      this.setState({ [playerName]: `Player ${player.slice(-1)}` });
+    }
+  };
+
   newGame = () => {
     this.setState({
       resetGame: true,
@@ -167,9 +183,9 @@ class Game extends React.Component {
         <div className="bg-img"></div>
 
         <div className="mainContainer">
-          <div className="playerContainer">
+          <div>
             <Player
-              playerName="player 1"
+              playerName={this.state.player1Name}
               currentScore={this.state.playerTurnCurrentScore}
               totalScore={this.state.totalScore1}
               turn={!this.state.playerTurn}
@@ -208,7 +224,11 @@ class Game extends React.Component {
             </div>
             <div className="inputContainer">
               {this.state.resetGame && (
-                <ReadInput getScoreGoal={this.getScoreGoalAndStart} />
+                <>
+                  <NameInput player="P1" callBack={this.getName} />
+                  <NameInput player="P2" callBack={this.getName} />
+                  <ReadInput getScoreGoal={this.getScoreGoalAndStart} />
+                </>
               )}
               {!this.state.resetGame && (
                 <div className="scoreGoal">
@@ -217,9 +237,9 @@ class Game extends React.Component {
               )}
             </div>
           </div>
-          <div className="playerContainer">
+          <div>
             <Player
-              playerName="player 2"
+              playerName={this.state.player2Name}
               currentScore={this.state.playerTurnCurrentScore}
               totalScore={this.state.totalScore2}
               turn={this.state.playerTurn}
